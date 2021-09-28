@@ -1,0 +1,32 @@
+from .models import {{model.model_name}}
+from .serializers import {{model.model_name}}Serializer
+from rest_framework import viewsets, status
+from rest_framework.response import Response
+{% if include.simple_jwt %}
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import CustomTokenObtainPairSerializer
+{% endif %}
+
+
+class {{model.model_name}}ViewSet(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and editing {{model.model_name|lower}} instances.
+    """
+    serializer_class = {{model.model_name}}Serializer
+    queryset = {{model.model_name}}.objects.all()
+
+{% if include.simple_jwt %}
+class CustomTokenObtainPairView(TokenObtainPairView):
+    """
+    Authentication endpoint to get access tokens
+    """
+
+    def post(self, request, *args, **kwargs):
+        payload = request.data
+        serializer = CustomTokenObtainPairSerializer(data=payload)
+        serializer.is_valid(raise_exception=True)
+        response_payload = serializer.validated_data
+        return Response(
+            {"success": True, "data": response_payload}, status=status.HTTP_200_OK
+        )
+{% endif %}

@@ -1,0 +1,9 @@
+from rest_framework import routers
+{% for model in models %}
+from .views import {{model.name}}ViewSet
+{% endfor %}
+router = routers.SimpleRouter()
+{% for model in models %}
+router.register(r'{{model.name|lower}}s', {{model.name}}ViewSet)
+{% endfor %}
+urlpatterns = router.urls

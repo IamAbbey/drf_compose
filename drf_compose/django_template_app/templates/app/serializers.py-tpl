@@ -1,0 +1,27 @@
+from rest_framework import serializers
+
+{% for model in models %}
+from .models import {{model.name}}
+{% endfor %}
+
+{% for model in models %}
+class {{model.name}}Serializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = {{model.name}}
+        fields = "__all__"
+
+    def create(self, validated_data):
+        {{model.name|lower}} = {{model.name}}.objects.create(**validated_data)
+        return {{model.name|lower}}
+
+    def update(self, instance, validated_data):
+
+        for (key, value) in validated_data.items():
+            setattr(instance, key, value)
+
+        instance.save()
+
+        return instance
+
+{% endfor %}

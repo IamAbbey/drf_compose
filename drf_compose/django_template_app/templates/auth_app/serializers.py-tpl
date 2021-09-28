@@ -1,0 +1,63 @@
+from rest_framework import serializers
+
+{% if include.simple_jwt %}
+from rest_framework_simplejwt.serializers import TokenObtainSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
+{% endif %}
+
+from .models import {{model.model_name}}
+
+
+class {{model.model_name}}Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = {{model.model_name}}
+        extra_kwargs = {
+            "password": {
+                "write_only": True,
+            },
+        }
+        fields = "__all__"
+        read_only_fields = (
+            "id",
+            "is_superuser",
+            "is_active",
+            "is_staff",
+            "last_login",
+            "date_joined",
+        )
+
+    def create(self, validated_data):
+        {{model.model_name|lower}} = {{model.model_name}}.objects.create(**validated_data)
+        return {{model.model_name|lower}}
+
+    def update(self, instance, validated_data):
+        password = validated_data.pop("password", None)
+
+        for (key, value) in validated_data.items():
+            setattr(instance, key, value)
+
+        if password is not None:
+            instance.set_password(password)
+
+        instance.save()
+
+        return instance
+
+{% if include.simple_jwt %}
+class EmailTokenObtainSerializer(TokenObtainSerializer):
+    username_field = {{model.model_name}}.EMAIL_FIELD
+
+
+class CustomTokenObtainPairSerializer(EmailTokenObtainSerializer):
+    @classmethod
+    def get_token(cls, user):
+        return RefreshToken.for_user(user)
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        refresh = self.get_token(self.user)
+
+        data["refresh"] = str(refresh)
+        data["access"] = str(refresh.access_token)
+        return data
+{% endif %}

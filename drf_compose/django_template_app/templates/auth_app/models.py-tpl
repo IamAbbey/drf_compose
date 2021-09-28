@@ -1,0 +1,38 @@
+{% load myfilters %}
+
+from uuid import uuid4
+
+from django.contrib.auth.models import AbstractUser
+from django.db import models
+
+from .manager import {{model.model_name}}Manager
+
+
+class {{model.model_name}}(AbstractUser):
+    {% if model.use_uuid_as_key %}
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    {% endif %}
+    {% for field in model.fields %}
+    {{field.name}} = models.{{field.type|clean_field_type}}({% for option, option_value in field.options.items %}{{option}}={{option_value|clean_option:option}},{% endfor %})
+    {% endfor %}
+
+    USERNAME_FIELD = "{{model.username_field}}"
+    {% if model.required_fields %}
+    REQUIRED_FIELDS = {{model.required_fields}}
+    {% else %}
+    REQUIRED_FIELDS = []
+    {% endif %}
+
+    objects = {{model.model_name}}Manager()
+
+    {% if model.meta %}
+    class Meta:
+        {% for meta, meta_value in model.meta.items %}
+        {{meta}} = {% if meta == "ordering" %} {{meta_value}} {% else %} "{{meta_value}}" {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {% if model.str %}
+    def __str__(self):
+        return f"{self.{{model.str}}}"
+    {% endif %}
