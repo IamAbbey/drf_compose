@@ -1,7 +1,5 @@
 {% for model in models %}
 from .models import {{model.name}}
-{% endfor %}
-{% for model in models %}
 from .serializers import {{model.name}}Serializer
 {% endfor %}
 from rest_framework import viewsets

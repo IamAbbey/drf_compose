@@ -16,7 +16,10 @@ class {{model.model_name}}Serializer(serializers.ModelSerializer):
                 "write_only": True,
             },
         }
-        fields = "__all__"
+        exclude = (
+            "groups",
+            "user_permissions",
+        )
         read_only_fields = (
             "id",
             "is_superuser",
@@ -27,7 +30,7 @@ class {{model.model_name}}Serializer(serializers.ModelSerializer):
         )
 
     def create(self, validated_data):
-        {{model.model_name|lower}} = {{model.model_name}}.objects.create(**validated_data)
+        {{model.model_name|lower}} = {{model.model_name}}.objects.create_user(**validated_data)
         return {{model.model_name|lower}}
 
     def update(self, instance, validated_data):

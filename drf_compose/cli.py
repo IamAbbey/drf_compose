@@ -62,10 +62,14 @@ def main(source: pathlib.Path, yaml: bool):
     except Exception as e:
         print(e)
         click.echo("Error parsing compose file", err=True)
-        return
+        raise click.ClickException("Error parsing compose file")
 
-    project_name = compose_file_content["name"]
-    specified_apps = list(map(getAppNames, compose_file_content["app_with_model"]))
+    project_name = get_key_or_error(
+        compose_file_content, "name", "project name is required"
+    )
+    specified_apps = list(
+        map(getAppNames, get_key_or_error(compose_file_content, "app_with_model"))
+    )
 
     if compose_file_content.get("auth_app", None) is not None:
         specified_apps.insert(0, getAppNames(compose_file_content.get("auth_app")))
@@ -83,12 +87,12 @@ def main(source: pathlib.Path, yaml: bool):
             ]
         )
     else:
-        click.secho(
-            f"Project folder with the specified project name ({project_name}) already exists.",
-            err=True,
-            fg="red",
+        raise click.ClickException(
+            click.style(
+                f"Project folder with the specified project name ({project_name}) already exists.",
+                fg="red",
+            )
         )
-        return
 
     project_context = {
         "local_apps": specified_apps,
@@ -124,45 +128,72 @@ def main(source: pathlib.Path, yaml: bool):
 
     pathlib.Path(apps_path / "__init__.py").touch(exist_ok=True)
 
-    for app_with_model in compose_file_content["app_with_model"]:
-        app_name = app_with_model["app_name"]
+    for app_with_model in get_key_or_error(compose_file_content, "app_with_model"):
+        app_name = get_key_or_error(app_with_model, "app_name")
         app_name_path = apps_path / app_name
         if not pathlib.Path(app_name_path).exists():
             pathlib.Path(app_name_path).mkdir(exist_ok=True)
             subprocess.run(["django-admin", "startapp", app_name, app_name_path])
 
-        models_context = {"models": app_with_model["models"]}
-
-        new_app_model_file = pathlib.Path(app_name_path / "models.py")
-        copy_tpl_files("app/models.py-tpl", new_app_model_file, models_context)
-
-        new_app_serializers_file = pathlib.Path(app_name_path / "serializers.py")
-        copy_tpl_files(
-            "app/serializers.py-tpl", new_app_serializers_file, models_context, True
-        )
-
-        new_app_views_file = pathlib.Path(app_name_path / "views.py")
-        copy_tpl_files("app/views.py-tpl", new_app_views_file, models_context)
-
-        new_app_urls_file = pathlib.Path(app_name_path / "urls.py")
-        copy_tpl_files("app/app_urls.py-tpl", new_app_urls_file, models_context, True)
-
         new_app_apps_file = pathlib.Path(app_name_path / "apps.py")
         copy_tpl_files("app/apps.py-tpl", new_app_apps_file, {"app_name": app_name})
 
+        models_context = {"models": app_with_model.get("models")}
+
+        if models_context["models"] and type(models_context["models"]) == list:
+
+            # clean models for required fields
+            for single_model in models_context["models"]:
+                get_key_or_error(single_model, "name", "model's name is required")
+                get_key_or_error(
+                    single_model, "fields", "model's list of fields is required"
+                )
+                # clean model fields for required values
+                for single_field in single_model["fields"]:
+                    get_key_or_error(single_field, "name", "field's name is required")
+                    get_key_or_error(single_field, "type", "field's type is required")
+
+            new_app_model_file = pathlib.Path(app_name_path / "models.py")
+            copy_tpl_files("app/models.py-tpl", new_app_model_file, models_context)
+
+            new_app_serializers_file = pathlib.Path(app_name_path / "serializers.py")
+            copy_tpl_files(
+                "app/serializers.py-tpl", new_app_serializers_file, models_context, True
+            )
+
+            new_app_views_file = pathlib.Path(app_name_path / "views.py")
+            copy_tpl_files("app/views.py-tpl", new_app_views_file, models_context)
+
+            new_app_views_file = pathlib.Path(app_name_path / "admin.py")
+            copy_tpl_files("app/admin.py-tpl", new_app_views_file, models_context)
+
+            new_app_urls_file = pathlib.Path(app_name_path / "urls.py")
+            copy_tpl_files(
+                "app/app_urls.py-tpl", new_app_urls_file, models_context, True
+            )
+
     if compose_file_content.get("auth_app", None) is not None:
         auth_app = compose_file_content.get("auth_app")
-        auth_app_name = auth_app["app_name"]
+        auth_app_name = get_key_or_error(
+            auth_app, "app_name", "auth app_name is required"
+        )
         auth_app_name_path = apps_path / auth_app_name
         if not pathlib.Path(auth_app_name_path).exists():
             pathlib.Path(auth_app_name_path).mkdir(exist_ok=True)
             subprocess.run(
                 ["django-admin", "startapp", auth_app_name, auth_app_name_path]
             )
+        get_key_or_error(auth_app, "model_name", "auth model_name is required")
+
+        if auth_app.get("fields") and type(auth_app["fields"]) == list:
+            # clean model fields for required values
+            for single_field in auth_app["fields"]:
+                get_key_or_error(single_field, "name", "field's name is required")
+                get_key_or_error(single_field, "type", "field's type is required")
 
         auth_models_context = {
             "model": auth_app,
-            "include": compose_file_content["include"],
+            "include": compose_file_content.get("include"),
         }
 
         new_app_model_file = pathlib.Path(auth_app_name_path / "models.py")
@@ -186,6 +217,9 @@ def main(source: pathlib.Path, yaml: bool):
         new_app_views_file = pathlib.Path(auth_app_name_path / "views.py")
         copy_tpl_files("auth_app/views.py-tpl", new_app_views_file, auth_models_context)
 
+        new_app_views_file = pathlib.Path(auth_app_name_path / "admin.py")
+        copy_tpl_files("auth_app/admin.py-tpl", new_app_views_file, auth_models_context)
+
         new_app_urls_file = pathlib.Path(auth_app_name_path / "urls.py")
         copy_tpl_files(
             "auth_app/auth_urls.py-tpl", new_app_urls_file, auth_models_context, True
@@ -201,6 +235,7 @@ def main(source: pathlib.Path, yaml: bool):
         emoji.emojize("All done! :sparkles: :cake: :sparkles:", use_aliases=True),
         bold=True,
     )
+    sys.exit(0)
 
 
 def getAppNames(obj: dict, append_apps: bool = True):
@@ -216,6 +251,14 @@ def copy_tpl_files(
         dest_file_path.touch(exist_ok=True)
     render_model = render_to_string(tpl_file_name, context)
     dest_file_path.write_text(render_model)
+
+
+def get_key_or_error(obj: dict, key: str, err_message=None):
+    if key in obj:
+        return obj[key]
+    raise click.ClickException(
+        click.style(err_message if err_message else f"{key} is required", fg="red")
+    )
 
 
 if __name__ == "__main__":

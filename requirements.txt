@@ -14,10 +14,13 @@ click==8.0.1
 colorama==0.4.4
 coreapi==2.3.3
 coreschema==0.0.4
-coverage==4.5.4
+coverage==5.5
 distlib==0.3.2
 Django==3.2.7
+django-cors-headers==3.8.0
+djangorestframework==3.12.4
 docutils==0.17.1
+drf-yasg==1.20.0
 emoji==1.4.2
 entrypoints==0.3
 filelock==3.0.12
@@ -44,6 +47,7 @@ pyflakes==2.1.1
 Pygments==2.10.0
 pyparsing==2.4.7
 pytest==6.2.4
+pytest-cov==2.12.1
 pytz==2021.1
 PyYAML==5.4.1
 readme-renderer==29.0

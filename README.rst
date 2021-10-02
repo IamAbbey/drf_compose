@@ -24,8 +24,8 @@ from your compose file. To learn more about all the features of DRF
 Compose, see the list of features below.
 
 DRF Compose is aimed at making the process of starting a DRF project
-quick and fun while also preventing any frustration caused by the
-inability to quick start an API.
+quick and fun - giving you a development head start experience - while also preventing 
+any frustration caused by the inability to quick start an API.
 
 Installing
 ==========
@@ -197,23 +197,23 @@ In JSON format (.json)
 Options
 =======
 
-1. ``name``: specifies the project name
-2. ``app_with_model``: specifies details describing each apps
-   in the DRF project
+1. ``name`` *(required)*: specifies the project name.
+2. ``app_with_model`` *(required)*: specifies details describing each apps
+   in the DRF project.
 
-   -  ``app_name``: specifies the app name
+   -  ``app_name`` *(required)*: specifies the app name 
    -  ``models``: a list of models belonging to the app
 
-      -  ``name``: specifies the model name
+      -  ``name`` *(required)*: specifies the model name 
       -  ``meta``: specifies the different model meta options as in the
          `Django model meta
          documentation <https://docs.djangoproject.com/en/3.2/topics/db/models/#meta-options>`__
-      -  ``fields``: a list of fields belonging to a model.
+      -  ``fields`` *(required)*: a list of fields belonging to a model.
 
-         -  ``name`` (*required*): the name of the field as in the
+         -  ``name`` *(required)*: the name of the field as in the
             `Django model field documentation
             <https://docs.djangoproject.com/en/3.2/topics/db/models/#fields>`__
-         -  ``type`` (*required*): the field type as specified in
+         -  ``type`` *(required)*: the field type as specified in
             `Django model field type reference
             documentation <https://docs.djangoproject.com/en/3.2/ref/models/fields/#model-field-types>`__.
             Basic syntax sugar also supported as shown below:
@@ -234,15 +234,15 @@ Options
             field
             documentation <https://docs.djangoproject.com/en/3.2/ref/models/fields/>`__.
 
-      -  ``use_uuid_as_key`` (*boolean*): if True, a UUID is used as the
+      -  ``use_uuid_as_key`` *(boolean)*: if True, a UUID is used as the
          model’s primary key.
       -  ``str``: specifies the field to be returned as representation
          of the model in ``__str__``. **Must be one of the specified
          field names**
 3. ``auth_app``: specifies details of the authentication application.
 
-   -  ``app_name``: specifies the app name
-   -  ``model_name``: specifies the model name for the custom user model
+   -  ``app_name`` *(required)*: specifies the app name
+   -  ``model_name`` *(required)*: specifies the model name for the custom user model
    -  ``username_field``: A string describing the name of the field on the user model that is used as the unique identifier `Django USERNAME_FIELD documentation            <https://docs.djangoproject.com/en/3.2/topics/auth/customizing/>`__.
    -  ``email_field``: A string describing the name of the email field on the User model.
       `Django's EMAIL_FIELD documentation <https://docs.djangoproject.com/en/3.2/topics/auth/customizing/#django.contrib.auth.models.CustomUser.EMAIL_FIELD>`__
@@ -253,10 +253,10 @@ Options
       documentation <https://docs.djangoproject.com/en/3.2/topics/db/models/#meta-options>`__
    -  ``fields``: a list of fields belonging to a model.
 
-      -  ``name`` (*required*): the name of the field as in the
+      -  ``name`` *(required)*: the name of the field as in the
          `Django model field documentation
          <https://docs.djangoproject.com/en/3.2/topics/db/models/#fields>`__
-      -  ``type`` (*required*): the field type as specified in
+      -  ``type`` *(required)*: the field type as specified in
          `Django model field type reference
          documentation <https://docs.djangoproject.com/en/3.2/ref/models/fields/#model-field-types>`__.
          Basic syntax sugar also supported as shown below:
@@ -277,19 +277,19 @@ Options
          field
          documentation <https://docs.djangoproject.com/en/3.2/ref/models/fields/>`__.
 
-   -  ``use_uuid_as_key`` (*boolean*): if True, a UUID is used as the
+   -  ``use_uuid_as_key`` *(boolean)*: if True, a UUID is used as the
       model’s primary key.
    -  ``str``: specifies the field to be returned as representation
       of the model in ``__str__``. **Must be one of the specified
       field names**
 4. ``include``: specifies the addons to be included in the application.
 
-   -  ``simple_jwt`` (*boolean*): if True, includes `Simple JWT <https://github.com/jazzband/djangorestframework-simplejwt>`__ JSON Web Token authentication plugin into the application.
+   -  ``simple_jwt`` *(boolean)*: if True, includes `Simple JWT <https://github.com/jazzband/djangorestframework-simplejwt>`__ JSON Web Token authentication plugin into the application.
    
       **COMING SOON!**
-   -  ``django_filter`` (*boolean*): if True, includes `Django-filter <https://github.com/carltongibson/django-filter>`__, a reusable Django application allowing users to declaratively add dynamic QuerySet filtering from URL parameters.
-   -  ``docker`` (*boolean*): if True, includes docker setup option into the application.
-   -  ``dj-database-url`` (*boolean*): if True, includes `DJ-Database-URL <https://github.com/jacobian/dj-database-url>`__ , a simple Django utility allows you to utilize the 12factor inspired DATABASE_URL environment variable to configure your Django application.
+   -  ``django_filter`` *(boolean)* if True, includes `Django-filter <https://github.com/carltongibson/django-filter>`__, a reusable Django application allowing users to declaratively add dynamic QuerySet filtering from URL parameters.
+   -  ``docker`` *(boolean)*: if True, includes docker setup option into the application.
+   -  ``dj-database-url`` *(boolean)*: if True, includes `DJ-Database-URL <https://github.com/jacobian/dj-database-url>`__ , a simple Django utility allows you to utilize the 12factor inspired DATABASE_URL environment variable to configure your Django application.
 
 Links
 =====
