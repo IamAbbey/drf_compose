@@ -3,14 +3,16 @@ python:
 - 3.8
 - 3.7
 - 3.6
-install: pip install -U tox-travis
+install:
+- pip install -U tox-travis
+- pip install --editable .
 script: tox
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
   user: __token__
   password:
-    secure: Ka+5uDNkcq6WMPCQBEdKCjUFAdYXtxIamlsBbrH1+0q3A5zyEAoNcEu+Pb1IK3WRyj9vV0fdNEy2m5jJNLvGb+WlrV+HNHQhriwZUTqJdyYL3oPZj6HOMrldhQoyijnh6GW5ri7xTqtwm+Z9nr2ZT64IwFDqn9L3HXWKacGYuaHitU/s/0r9oE6oojwr+dgYZ3MN8FnfNfmZ3hHdCSphOfR+1slgztRtqGWZJyUDtp+u3kvfxT+b6hxAZrwF/pv6ET56hmYvlSwNcb/57LSAfVZLq0wzzRjMipgCOUCO9lmmi+gZLOjMjnsTeFoMTOnNOENpzce9Bc80z5mg6DwDoeCFeKx5Hzd5JnMhR90r7G6U2kaO7ZjwneseO6tYqOyIU9vadJETZmQUUW3O2CYMU93TZUNjliPQiflIkR4dVqI36iYKxfZCJVX6BNpmPOoJa/acqFOp+lH9mtDpVyoXtjy7JUswvToWcx7EulB5h2jsBSVWeyjdKyocjjPsuOs5w8l8wtT2a6dkUJVmCmdH+VO/lnYve/dAMZ2rTqNQIQMYe5InayNw28MQou9B3FadeCZ0pHH+8FKCda9tm9oLnERfcbPcdbAMYH2ccb1oabw2fca5ibiHobtmTMoFc5cM/rp2FuamfYF3sJWSilGvL8rVoAcuanzSK8yTAXPBWdw=
+    secure: W9VioC+xxp5vimrqVlzXFD/mvouC/owB7yTzYmUBNlqmbotnbUjgkq136cb4vYncXlL33ejIFibNHVDAEUO+aMjEh/6URJSOseA1fg3d1rtjkLaZVaubZJ7j9Ycq8w8A5iz3FGchAE2gSjGy58lVrxsJprmeCyf6T3yjmk3/E+TIc0MqNNsturlIF0B3aenHho2CMgMAei50JMlx86rZXsPuJRxeH/5vofauaT929sD9Zcz2CJbyu788/lt0V9lbTfMctXOml9IvI2K1wlGDUZrTpBi4jMIaO+vm1KBgac9LKmrAts0j8aYtw9lRMnQbTHA4np7MWvPu3yLS1zIdhFs79AoEhmCHR0sDXQzDzk9zTJyROfKKQ+Shs0g9/8ZgR176lCtrduhfoi20m/MrBJHRw+xJvMGqwjol7UT3bpsk6xlPz3188tcquVuX8SIRQrZllGW+2Q6f3ripkdHxvc6/abO/Pj1FoJBYQa967wei0SQqPNuX14VJhdNNdHkwcA0zyTb6Hq4YGvOmDov8op5Lc97acBOhGa9Mc41OaIWgL9irx/2jIM8JMcghGYFBPUQ/jC9B5kZzKJ22iR95O1F+ltSYbJa8vNb2wyhRL4/Zj54ew5T78h24xpZ+EkvIGKvpRmFHb7GjDoS/HEsUnjnI/30aBqbucW16sliwjBY=
   on:
     tags: true
     repo: IamAbbey/drf_compose
