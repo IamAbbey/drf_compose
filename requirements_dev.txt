@@ -7,6 +7,7 @@ tox==3.14.0
 coverage==4.5.4
 Sphinx==1.8.5
 twine==1.14.0
-Click==7.0
+click==8.0.1
 pytest==6.2.4
 black==21.7b0
+Django==3.2.7

@@ -1,0 +1,4 @@
+from django.contrib import admin
+from .models import {{model.model_name}}
+
+admin.site.register({{model.model_name}})

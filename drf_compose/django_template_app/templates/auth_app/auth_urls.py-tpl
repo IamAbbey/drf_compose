@@ -1,0 +1,11 @@
+from django.urls import path
+from rest_framework import routers
+from .views import {{model.model_name}}ViewSet, CustomTokenObtainPairView
+router = routers.SimpleRouter()
+router.register(r'{{model.model_name|lower}}s', {{model.model_name}}ViewSet)
+
+urlpatterns = [
+    path('auth/', CustomTokenObtainPairView.as_view(), name="token_obtain_pair"),
+]
+
+urlpatterns += router.urls

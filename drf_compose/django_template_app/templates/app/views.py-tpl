@@ -1,0 +1,15 @@
+{% for model in models %}
+from .models import {{model.name}}
+from .serializers import {{model.name}}Serializer
+{% endfor %}
+from rest_framework import viewsets
+from rest_framework.response import Response
+
+{% for model in models %}
+class {{model.name}}ViewSet(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and editing {{model.name|lower}} instances.
+    """
+    serializer_class = {{model.name}}Serializer
+    queryset = {{model.name}}.objects.all()
+{% endfor %}

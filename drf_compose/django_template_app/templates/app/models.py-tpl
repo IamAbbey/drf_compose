@@ -1,0 +1,25 @@
+
+{% load myfilters %}
+
+from uuid import uuid4
+from django.db import models
+
+{% for model in models %}
+class {{model.name}}(models.Model):
+    {% if model.use_uuid_as_key %}
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    {% endif %}
+    {% for field in model.fields %}
+    {{field.name}} = models.{{field.type|clean_field_type}}({% for option, option_value in field.options.items %}{{option}}={{option_value|clean_option:option}},{% endfor %})
+    {% endfor %}
+    {% if model.meta %}
+    class Meta:
+        {% for meta, meta_value in model.meta.items %}
+        {{meta}} = {% if meta == "ordering" %} {{meta_value}} {% else %} "{{meta_value}}" {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% if model.str %}
+    def __str__(self):
+        f"{self.{{model.str}}}"
+    {% endif %}
+{% endfor %}
