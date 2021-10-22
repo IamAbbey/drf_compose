@@ -4,9 +4,9 @@ include HISTORY.rst
 include LICENSE
 include README.rst
 
-recursive-include tests *
-recursive-exclude * __pycache__
-recursive-exclude * *.py[co]
-recursive-include drf_compose django_template_app *
+graft tests
+graft drf_compose
+graft docs
 
-recursive-include docs *.rst conf.py Makefile make.bat *.jpg *.png *.gif
+global-exclude __pycache__
+global-exclude *.py[co]
