@@ -5,9 +5,8 @@ include LICENSE
 include README.rst
 
 recursive-include tests *
-recursive-include drf_compose django_template_app templates *
-recursive-include drf_compose django_template_app templatetags *
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
+recursive-include drf_compose django_template_app *
 
 recursive-include docs *.rst conf.py Makefile make.bat *.jpg *.png *.gif
