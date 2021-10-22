@@ -35,7 +35,7 @@ Install and update using
 
 .. code-block:: bash
 
-   $ pip install -U drf_compose
+   $ pip install drf-compose
 
 Usage
 =====
