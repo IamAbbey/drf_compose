@@ -105,29 +105,30 @@ In JSON format (.json)
 
 .. code-block:: yaml
 
-     name: delight_blog
-     app_with_model:
-     - app_name: post
-       models:
-       - name: Post
-         fields:
-         - name: title
-           type: char
-           blank: true
-           'null': true
-           max_length: 200
-         - name: content
-           type: text
-           blank: true
-           'null': true
-         str: title
-       - name: Category
-         fields:
-         - name: name
-           type: char
-           blank: true
-           'null': true
-           max_length: 200
+    name: delight_blog
+    app_with_model:
+    - app_name: post
+      models:
+      - name: Post
+        fields:
+        - name: title
+          type: char
+          options:
+            max_length: 200
+        - name: content
+          type: text
+          options:
+            blank: true
+            'null': true
+        str: title
+      - name: Category
+        fields:
+        - name: name
+          type: char
+          options:
+            blank: true
+            'null': true
+            max_length: 200
 
 .. raw:: html
 
@@ -148,18 +149,20 @@ In JSON format (.json)
            {
              "name": "Post",
              "fields": [
-               {
-                 "name": "title",
-                 "type": "char",
-                 "blank": true,
-                 "null": true,
-                 "max_length": 200
-               },
+                {
+                  "name": "title",
+                  "type": "char",
+                  "options": {
+                    "max_length": 200
+                  }
+                },
                {
                  "name": "content",
                  "type": "text",
-                 "blank": true,
-                 "null": true
+                 "options": {
+                    "blank": true,
+                    "null": true
+                  }
                }
              ],
              "str": "title"
@@ -170,9 +173,11 @@ In JSON format (.json)
                {
                  "name": "name",
                  "type": "char",
-                 "blank": true,
-                 "null": true,
-                 "max_length": 200
+                 "options": {
+                    "blank": true,
+                    "null": true,
+                    "max_length": 200
+                  }
                }
              ]
            }
