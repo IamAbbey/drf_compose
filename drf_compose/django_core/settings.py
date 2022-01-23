@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "drf_compose.django_template_app",
 ]
-print(BASE_DIR)
 
 TEMPLATES = [
     {

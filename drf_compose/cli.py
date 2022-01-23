@@ -68,11 +68,11 @@ def main(source: pathlib.Path, yaml: bool):
         compose_file_content, "name", "project name is required"
     )
     specified_apps = list(
-        map(getAppNames, get_key_or_error(compose_file_content, "app_with_model"))
+        map(get_app_names, get_key_or_error(compose_file_content, "app_with_model"))
     )
 
     if compose_file_content.get("auth_app", None) is not None:
-        specified_apps.insert(0, getAppNames(compose_file_content.get("auth_app")))
+        specified_apps.insert(0, get_app_names(compose_file_content.get("auth_app")))
 
     new_project_path = pathlib.Path(source.parent / project_name)
 
@@ -238,7 +238,7 @@ def main(source: pathlib.Path, yaml: bool):
     sys.exit(0)
 
 
-def getAppNames(obj: dict, append_apps: bool = True):
+def get_app_names(obj: dict, append_apps: bool = True):
     if append_apps:
         return f"apps.{obj['app_name']}"
     return f"{obj['app_name']}"
