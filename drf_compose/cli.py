@@ -238,10 +238,8 @@ def main(source: pathlib.Path, yaml: bool):
     sys.exit(0)
 
 
-def get_app_names(obj: dict, append_apps: bool = True):
-    if append_apps:
-        return f"apps.{obj['app_name']}"
-    return f"{obj['app_name']}"
+def get_app_names(obj: dict):
+    return f"apps.{obj['app_name']}"
 
 
 def copy_tpl_files(
