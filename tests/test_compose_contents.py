@@ -1,5 +1,4 @@
-json_test_compose = \
-"""
+json_test_compose = """
 {
   "name": "delight_blog",
   "app_with_model": [
@@ -178,8 +177,7 @@ json_test_compose = \
 }
 """
 
-yaml_test_compose = \
-"""
+yaml_test_compose = """
 ---
 name: delight_blog
 app_with_model:

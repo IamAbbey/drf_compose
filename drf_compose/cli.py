@@ -59,8 +59,7 @@ def main(source: pathlib.Path, yaml: bool):
             compose_file_content = YAML.full_load(compose_file_content)
         else:
             compose_file_content = json.loads(compose_file_content)
-    except Exception as e:
-        print(e)
+    except Exception:
         click.echo("Error parsing compose file", err=True)
         raise click.ClickException("Error parsing compose file")
 
