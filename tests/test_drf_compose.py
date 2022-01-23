@@ -24,7 +24,6 @@ def create_compose_file(content=None, use_json=True):
 
 
 def test_valid_json_compose_file():
-    """Test the CLI."""
     runner = CliRunner()
     with runner.isolated_filesystem():
         create_compose_file()
@@ -33,7 +32,6 @@ def test_valid_json_compose_file():
 
 
 def test_valid_yaml_compose_file():
-    """Test the CLI."""
     runner = CliRunner()
     with runner.isolated_filesystem():
         create_compose_file(use_json=False)
@@ -42,7 +40,6 @@ def test_valid_yaml_compose_file():
 
 
 def test_project_folder_already_exist():
-    """Test the CLI."""
     runner = CliRunner()
     with runner.isolated_filesystem():
         create_compose_file()
@@ -53,7 +50,6 @@ def test_project_folder_already_exist():
 
 
 def test_error_parsing_compose_file():
-    """Test the CLI."""
     runner = CliRunner()
     with runner.isolated_filesystem():
         create_compose_file(content="{")
@@ -63,13 +59,24 @@ def test_error_parsing_compose_file():
 
 
 def test_missing_compose_file():
-    """Test the CLI."""
     runner = CliRunner()
     with runner.isolated_filesystem():
         result = runner.invoke(cli.main)
         print(result.stdout)
         assert result.exception
         assert result.exit_code == 2
+
+
+def test_invalid_option_type():
+    # e.g app_with_model is expected to be a list
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        test_compose_json: dict = json.loads(json_test_compose)
+        test_compose_json["app_with_model"] = "a string instead of a list"
+        create_compose_file(json.dumps(test_compose_json))
+        result = runner.invoke(cli.main)
+        assert result.exception
+        assert result.exit_code == 1
 
 
 @pytest.mark.parametrize(
