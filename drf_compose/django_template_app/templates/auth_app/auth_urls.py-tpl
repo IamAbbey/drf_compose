@@ -1,11 +1,20 @@
 from django.urls import path
 from rest_framework import routers
+{% if include.simple_jwt %}
 from .views import {{model.model_name}}ViewSet, CustomTokenObtainPairView
+{% else %}
+from .views import {{model.model_name}}ViewSet
+{% endif %}
 router = routers.SimpleRouter()
 router.register(r'{{model.model_name|lower}}s', {{model.model_name}}ViewSet)
 
+{% if include.simple_jwt %}
 urlpatterns = [
     path('auth/', CustomTokenObtainPairView.as_view(), name="token_obtain_pair"),
 ]
 
 urlpatterns += router.urls
+{% else %}
+
+urlpatterns = router.urls
+{% endif %}

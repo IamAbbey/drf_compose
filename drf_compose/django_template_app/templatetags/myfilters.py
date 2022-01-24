@@ -4,14 +4,6 @@ from django.template.defaultfilters import stringfilter
 register = template.Library()
 
 
-@register.filter(name="default_if_exist")
-def default_if_exist(value, args):
-    if value:
-        return args
-    else:
-        return ""
-
-
 @register.filter(name="clean_field_type")
 @stringfilter
 def clean_field_type(value: str):

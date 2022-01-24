@@ -104,3 +104,7 @@ ENV/
 # IDE settings
 .vscode/
 .idea/
+
+# Test files
+drf-compose.json
+drf-compose.yaml
