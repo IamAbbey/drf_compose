@@ -12,13 +12,13 @@ with open("HISTORY.rst") as history_file:
 
 requirements = [
     "Click==8.0",
-    "Django==3.2.7",
-    "django-cors-headers==3.8.0",
-    "djangorestframework==3.12.4",
-    "drf-yasg==1.20.0",
-    "emoji==1.4.2",
-    "PyYAML==5.4.1",
-    "black==21.7b0",
+    "Django==4.0",
+    "django-cors-headers==3.13.0",
+    "djangorestframework==3.13.0",
+    "drf-yasg==1.21.3",
+    "emoji==2.0.0",
+    "PyYAML==6.0",
+    "black==21.12b0",
 ]
 
 test_requirements = [
