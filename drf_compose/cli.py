@@ -49,7 +49,7 @@ def main(source: pathlib.Path, yaml: bool):
 
     click.echo(
         click.style(
-            emoji.emojize("Generating DRF Project!... Please wait", use_aliases=True),
+            emoji.emojize("Generating DRF Project!... Please wait"),
             bold=True,
         )
     )
@@ -294,7 +294,7 @@ def main(source: pathlib.Path, yaml: bool):
 
     # Show success status to user
     click.secho(
-        emoji.emojize("All done! :sparkles: :cake: :sparkles:", use_aliases=True),
+        emoji.emojize("All done! :sparkles: :cake: :sparkles:"),
         bold=True,
     )
     sys.exit(0)
