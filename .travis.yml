@@ -1,8 +1,6 @@
 language: python
 python:
-- 3.8
-- 3.7
-- 3.6
+- '3.10'
 install:
 - pip install -U tox-travis
 - pip install --editable .
@@ -16,4 +14,4 @@ deploy:
   on:
     tags: true
     repo: IamAbbey/drf_compose
-    python: 3.8
+    python: '3.10'
