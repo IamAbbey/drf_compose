@@ -12,7 +12,7 @@ with open("HISTORY.rst") as history_file:
 
 requirements = [
     "Click==8.0",
-    "Django==4.0",
+    "Django==4.0.6",
     "django-cors-headers==3.13.0",
     "djangorestframework==3.13.0",
     "drf-yasg==1.21.3",
