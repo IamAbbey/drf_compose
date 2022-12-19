@@ -4,7 +4,7 @@ python:
 - '3.10'
 install:
 - pip install -U tox-travis
-- pip uninstall setuptools
+- pip uninstall setuptools -y
 - python3 -m pip install --upgrade pip setuptools wheel
 - pip install --editable .
 script: tox
